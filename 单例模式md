@@ -1,0 +1,62 @@
+public class Singleton {
+
+    // 饱汉式
+    // private static Singleton instance;
+
+    // 饿汉式
+    private static final Singleton instance = new Singleton();
+
+    private Singleton() {
+
+    }
+
+    public static Singleton getInstance() {
+	// 饱汉式
+	// if (instance == null) {
+	// instance = new Singleton();
+	// }
+
+	return instance;
+    }
+
+}
+
+public class SingletonThreadSafe {
+    private static volatile SingletonThreadSafe instance;
+
+    private SingletonThreadSafe() {
+
+    }
+
+    public static SingletonThreadSafe getInstance() {
+	if (instance == null) {
+	    synchronized (SingletonThreadSafe.class) {
+		if (instance == null) {
+		    instance = new SingletonThreadSafe();
+		}
+	    }
+	}
+
+	return instance;
+    }
+
+}
+
+/**
+ * 单例模式客户端
+ */
+public class SingletonClient {
+    public static void main(String[] args) {
+
+	SingletonThreadSafe instance1 = SingletonThreadSafe.getInstance();
+	SingletonThreadSafe instance2 = SingletonThreadSafe.getInstance();
+
+	if (instance1.equals(instance2)) {
+	    System.out.println("同样的实例");
+	} else {
+	    System.out.println("不同的实例");
+	}
+
+    }
+
+}
